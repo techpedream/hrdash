@@ -48,12 +48,12 @@ with col2:
 
 with col3:
     media_sal = df['Salary'].mean()
-    st.metric("💸 Média Salarial", f"${media_sal:,.2f}")
+    st.metric("Média Salarial", f"${media_sal:,.2f}")
 
 st.markdown("---")
 
 # ========== FILTROS ========== #
-st.sidebar.header("🎛️ Filtros")
+st.sidebar.header("Filtros")
 departamentos = st.sidebar.multiselect(
     "Escolha os Departamentos", 
     df['Department'].unique(), 
@@ -63,7 +63,7 @@ departamentos = st.sidebar.multiselect(
 df_filtrado = df[df['Department'].isin(departamentos)]
 
 # ========== GRÁFICO SALARIAL ========== #
-st.subheader("💰 Distribuição Salarial por Departamento")
+st.subheader("Distribuição Salarial por Departamento")
 fig_salario = px.box(
     df_filtrado,
     x="Department",
@@ -78,18 +78,18 @@ st.plotly_chart(fig_salario, use_container_width=True)
 col4, col5 = st.columns(2)
 
 with col4:
-    st.subheader("📊 Distribuição por Gênero")
+    st.subheader("Distribuição por Raça")
     fig_genero = px.pie(
         df_filtrado,
         names="RaceDesc",
-        title="Proporção de Gênero",
+        title="Proporção de Raça",
         hole=0.5,
         color_discrete_sequence=px.colors.sequential.RdBu
     )
     st.plotly_chart(fig_genero, use_container_width=True)
 
 with col5:
-    st.subheader("🔥 Engajamento por Departamento")
+    st.subheader("Engajamento por Departamento")
     engajamento = df_filtrado.groupby("Department")["EngagementSurvey"].mean().reset_index()
     fig_eng = px.bar(
         engajamento,
@@ -103,5 +103,5 @@ with col5:
 
 # ========== TABELA FINAL ========== #
 st.markdown("---")
-st.subheader("📋 Funcionários Filtrados")
+st.subheader("Funcionários Filtrados")
 st.dataframe(df_filtrado[['Employee_Name', 'Department', 'Position', 'RaceDesc', 'Salary', 'EngagementSurvey']], use_container_width=True)
