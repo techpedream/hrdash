@@ -27,6 +27,35 @@ st.markdown("""
         margin-bottom: 10px;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
+    .tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 10px;
+    }
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 260px;
+        background-color: #1f2937;
+        color: #fff;
+        text-align: left;
+        border-radius: 6px;
+        padding: 10px;
+        position: absolute;
+        z-index: 1;
+        top: 130%;
+        left: 50%;
+        margin-left: -130px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 12px;
+}
+
+.   tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+}
     </style>
 """, unsafe_allow_html=True)
 
@@ -73,6 +102,25 @@ fig_salario = px.box(
     template="plotly_white"
 )
 st.plotly_chart(fig_salario, use_container_width=True)
+
+with st.expander("💡 Insight Estratégico"):
+    st.markdown("""
+    <div style='background-color:#e0f3ff; padding:10px; border-radius:5px;'>
+        <b>Salário de IT é maior. Sales em segundo, aparenta ter bônus de venda.</b>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Gráfico de barras de salário médio por departamento dentro do expander
+    salario_departamento = df_filtrado.groupby("Department")["Salary"].mean().reset_index()
+    fig_salario_departamento = px.bar(
+        salario_departamento,
+        x="Department",
+        y="Salary",
+        color="Department",
+        title="Salário Médio por Departamento",
+        template="plotly_white"
+    )
+    st.plotly_chart(fig_salario_departamento, use_container_width=True)
 
 # ========== GÊNERO & ENGAJAMENTO ========== #
 col4, col5 = st.columns(2)
